@@ -8,9 +8,10 @@ export const assets = [
   {
     network: "Polygon",
     tokens: [
-      { name: "MATIC", type: "native", address: null, abi: null },
+      { name: "MATIC", apiId: "matic-network", address: null, abi: null },
       {
         name: "WETH",
+        apiId: "matic-network",
         type: "erc20",
         address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
         abi: [
@@ -459,6 +460,7 @@ export const assets = [
       },
       {
         name: "USDT",
+        apiId: "matic-network",
         type: "erc20",
         address: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
         abi: [
@@ -920,6 +922,7 @@ export const assets = [
       },
       {
         name: "BNB",
+        apiId: "matic-network",
         type: "erc20",
         address: "0x3BA4c387f786bFEE076A58914F5Bd38d668B42c3",
         abi: [
@@ -1374,6 +1377,7 @@ export const assets = [
       },
       {
         name: "USDC",
+        apiId: "matic-network",
         type: "erc20",
         address: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
         abi: [
@@ -2197,6 +2201,7 @@ export const assets = [
       },
       {
         name: "USDC.e",
+        apiId: "matic-network",
         type: "erc20",
         address: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
         abi: [
@@ -3004,6 +3009,7 @@ export const assets = [
       },
       {
         name: "BUSD",
+        apiId: "matic-network",
         type: "erc20",
         address: "0xdAb529f40E671A1D4bF91361c21bf9f0C9712ab7",
         abi: [
@@ -3465,6 +3471,7 @@ export const assets = [
       },
       {
         name: "AVAX",
+        apiId: "matic-network",
         type: "erc20",
         address: "0x2C89bbc92BD86F8075d1DEcc58C7F4E0107f286b",
         abi: [
@@ -3849,6 +3856,7 @@ export const assets = [
 
       {
         name: "SAND",
+        apiId: "matic-network",
         type: "erc20",
         address: "0xBbba073C31bF03b8ACf7c28EF0738DeCF3695683",
         abi: [
