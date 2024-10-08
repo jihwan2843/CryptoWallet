@@ -1,10 +1,5 @@
-import express from "express";
 import { ethers } from "ethers";
-import { assets } from "./assets.js";
-
-const app = express();
-
-const port = 3010;
+import crypto from "crypto";
 
 //const provider = new ethers.InfuraProvider("matic");
 const provider = new ethers.AlchemyProvider("matic");
@@ -14,3 +9,6 @@ let testAddr2;
 let pvk1;
 
 const balance = [{}];
+
+const main = () => {};
+main();
