@@ -2,13 +2,27 @@ import axios from "axios";
 import { ethers } from "ethers";
 import { assets } from "./assets.js";
 import dotenv from "dotenv";
+import { POLYGON_PROVIDER, SEPOLIA_PROVIDER } from "./daemon.js";
 
 dotenv.config();
 
 const balance = [{}];
 
 //const provider = new ethers.AlchemyProvider("matic");
-const provider = new ethers.InfuraProvider("matic");
+//const provider = new ethers.InfuraProvider("matic");
+
+let provider;
+// provider 선택
+switch (network) {
+  case "Polygon":
+    provider = POLYGON_PROVIDER;
+    break;
+  case "Ethereum":
+    privder;
+    break;
+  case "Sepolia":
+    provider = SEPOLIA_PROVIDER;
+}
 
 const testAddr1 = process.env.TestAddr1;
 const testAddr2 = process.env.TestAddr2;
