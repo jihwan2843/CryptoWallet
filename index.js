@@ -1,31 +1,28 @@
 import { ethers } from "ethers";
 import axios from "axios";
 import crypto from "crypto";
+import dotenv from "dotenv";
 
-//const provider = new ethers.InfuraProvider("matic");
-const provider = new ethers.AlchemyProvider("matic");
+dotenv.config();
+
+const provider = new ethers.InfuraProvider("matic");
+//const provider = new ethers.InfuraProvider("sepolia");
+
+//const provider = new ethers.AlchemyProvider("matic");
 //const provider = new ethers.AlchemyProvider("sepolia");
 
+const testAddr1 = process.env.TestAddr1;
+const testAddr2 = process.env.TestAddr2;
+const pvk1 = process.env.PVK1;
 const apiKey = process.env.CoinGeckoAPIKey;
 const balance = [{}];
-const getTokenPrice = () => {
-  const options = {
-    method: "GET",
-    url: "https://api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=usd",
-    headers: {
-      accept: "application/json",
-      "x-cg-pro-api-key": apiKey,
-    },
-  };
 
-  axios
-    .request(options)
-    .then(function (response) {
-      console.log(response.data);
-    })
-    .catch(function (error) {
-      console.error(error);
-    });
+const main = async () => {
+  const a = await provider.getFeeData();
+  console.log(a.maxPriorityFeePerGas);
+  console.log();
+  const b = await provider.getBlock();
+  console.log(b);
 };
-const main = () => {};
-getTokenPrice();
+
+main();
