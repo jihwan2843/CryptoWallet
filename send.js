@@ -3,13 +3,11 @@ import { ethers } from "ethers";
 import { assets } from "./assets.js";
 import dotenv from "dotenv";
 import { Transaction } from "ethers";
+import { selectNetwork } from "./constants/index.js";
 
 dotenv.config();
 
 const balance = [{}];
-
-//const provider = new ethers.AlchemyProvider("matic");
-const provider = new ethers.InfuraProvider("matic");
 
 const testAddr1 = process.env.TestAddr1;
 const testAddr2 = process.env.TestAddr2;
@@ -25,12 +23,13 @@ const selectToken = (network, name) => {
   return null;
 };
 const Send = async (toAddress, amount, networkName, tokenName) => {
+  const provider = selectNetwork(networkName);
   const { type, decimals, address, abi } = selectToken(networkName, tokenName);
 
   if (type === "erc20") {
     try {
       // 단위를 wei로 변환
-      const tokenAmount = ethers.parseUnits("0.1", decimals); // USDT는 decimals가 6이기 때문에 parseUnits를 사용.
+      const tokenAmount = ethers.parseUnits("0.1", Number(decimals)); // USDT는 decimals가 6이기 때문에 parseUnits를 사용.
 
       const signer = new ethers.Wallet(pvk1, provider);
       // erc20 토큰 전송
@@ -42,7 +41,7 @@ const Send = async (toAddress, amount, networkName, tokenName) => {
       /**
        * 조건문 넣어줘야 함 if(amount > myBalance)
        */
-      console.log(44);
+
       const contractAddr = await contract.getAddress();
       console.log(typeof contractAddr, contractAddr);
       // 거래 정보
@@ -53,16 +52,16 @@ const Send = async (toAddress, amount, networkName, tokenName) => {
           tokenAmount,
         ]),
       });
-      console.log(53);
+
       // 최대 가스 가격
       const maxGasPrice = (await provider.getFeeData()).maxFeePerGas;
-      console.log(56);
+
       // // 예상 트랜잭션 가스량
       const estGasAmount = await provider.estimateGas(tx);
-      console.log(59);
-      // // 예상 최대 가스비
-      // const estGas = ethers.formatEther(maxGasPrice * estGasAmount);
-      // console.log(85, estGas);
+
+      // 예상 최대 가스비
+      const estGas = ethers.formatEther(maxGasPrice * estGasAmount);
+      console.log(85, estGas);
 
       const txResponse = await contract.transfer(testAddr2, tokenAmount);
 
@@ -73,7 +72,7 @@ const Send = async (toAddress, amount, networkName, tokenName) => {
 
       console.log(53, txHash);
       // 조건문이 만족하면 트랜잭션이 성공
-      if (txReceipt && (await txReceipt.confirmations()) > 0) {
+      if (txReceipt && (await txReceipt.status) === 1) {
         console.log("success");
         // 트랜잭션이 성공하면 이 사이트로 이동할 수 있는 기능을 프론트에서 만들어야 함. `https://sepolia.etherscan.io/tx/${txHash}`
 
@@ -119,7 +118,7 @@ const Send = async (toAddress, amount, networkName, tokenName) => {
       const txHash = txReceipt.hash;
 
       // 조건문이 만족하면 트랜잭션이 성공
-      if (txReceipt && (await txReceipt.confirmations()) > 0) {
+      if (txReceipt && (await txReceipt.status) === 1) {
         console.log("success");
         // 트랜잭션이 성공하면 이 사이트로 이동할 수 있는 기능을 프론트에서 만들어야 함. `https://sepolia.etherscan.io/tx/${txHash}`
 

@@ -1,35 +1,14 @@
 import axios from "axios";
 import { ethers } from "ethers";
 import { assets } from "./assets.js";
-import dotenv from "dotenv";
-import { POLYGON_PROVIDER, SEPOLIA_PROVIDER } from "./daemon.js";
-
-dotenv.config();
+import { selectNetwork } from "./constants/index.js";
 
 const balance = [{}];
-
-//const provider = new ethers.AlchemyProvider("matic");
-//const provider = new ethers.InfuraProvider("matic");
-
-let provider;
-// provider 선택
-switch (network) {
-  case "Polygon":
-    provider = POLYGON_PROVIDER;
-    break;
-  case "Ethereum":
-    privder;
-    break;
-  case "Sepolia":
-    provider = SEPOLIA_PROVIDER;
-}
 
 const testAddr1 = process.env.TestAddr1;
 const testAddr2 = process.env.TestAddr2;
 const pvk1 = process.env.PVK1;
 const apiKey = process.env.CoinGeckoAPIKey;
-
-const main = () => {};
 
 const getTokenPrice = async (apiId) => {
   const options = {
@@ -49,6 +28,8 @@ const getTokenPrice = async (apiId) => {
   }
 };
 const getBalance = async () => {
+  const provider = selectNetwork("Polygon");
+
   try {
     // 속도를 높이기 위해 비동기 작업을 병렬로 처리하기
     const balancePromise = assets.map(async (network) => {
@@ -60,7 +41,7 @@ const getBalance = async () => {
               const tokenPrice = await getTokenPrice(v.apiId);
               return {
                 name: v.name,
-                balance: nativeBalance,
+                balance: ethers.formatEther(nativeBalance),
                 price: tokenPrice,
               };
             } else {
@@ -76,7 +57,7 @@ const getBalance = async () => {
               if (tokenBalance !== 0n) {
                 return {
                   name: v.name,
-                  balance: tokenBalance,
+                  balance: ethers.formatUnits(tokenBalance, v.decimals),
                   price: tokenPrice,
                 };
               }
@@ -102,3 +83,5 @@ const getBalance = async () => {
     console.error(error);
   }
 };
+
+getBalance();

@@ -9,6 +9,7 @@ console.log(newWallet.mnemonic.phrase);
 
 // 시드 문구로 지갑 만들기
 const myWallet = ethers.Wallet.fromPhrase(seedPhrase);
+console.log("new wallet", myWallet);
 
 async function encryptPassword(password) {
   // 첫 번째 단계: PBKDF2로 키 파생
@@ -31,15 +32,16 @@ async function encryptPassword(password) {
 
   // 지갑을 암호화
   const encryptedJSON = await newWallet.encrypt(passwd);
-
+  console.log(encryptedJSON);
   // 지갑 주소는 사용자가 입력하여 로컬 스토리지의 key로 사용한다.
   let walletName;
   // 크롬 로컬 스토리지에 저장
-  localStorage.setItem(walletName, encryptedJSON);
+  //localStorage.setItem(walletName, encryptedJSON);
   // 크롬 로컬 스토리지에서 암호화 된 지갑객체 가지고 오기
-  const encryptedJson = localStorage.getItem(walletName);
+  // const encryptedJson = localStorage.getItem(walletName);
 
   // 지갑을 복호화
   const wallet = await ethers.Wallet.fromEncryptedJson(encryptedJson, passwd);
+  console.log(wallet);
   console.log("Encrypted Wallet JSON:", passwd); // 암호화된 JSON 출력
 })();
