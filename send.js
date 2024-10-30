@@ -22,7 +22,7 @@ const selectToken = (network, name) => {
   }
   return null;
 };
-const Send = async (toAddress, amount, networkName, tokenName) => {
+export const Send = async (toAddress, amount, networkName, tokenName) => {
   const provider = selectNetwork(networkName);
   const { type, decimals, address, abi } = selectToken(networkName, tokenName);
 
@@ -82,6 +82,8 @@ const Send = async (toAddress, amount, networkName, tokenName) => {
         const gasPrice = txReceipt.gasPrice;
         // 사용된 총 가스비
         const totalGas = ethers.formatEther(gasUsed * gasPrice);
+        const a = [{ to: txReceipt.to, from: txReceipt.from, amount: amount }];
+        return a;
       } else {
         console.log("failed");
       }
@@ -128,6 +130,8 @@ const Send = async (toAddress, amount, networkName, tokenName) => {
         const gasPrice = txReceipt.gasPrice;
         // 사용된 총 가스비
         const totalGas = ethers.formatEther(gasUsed * gasPrice);
+        const a = [{ to: txReceipt.to, from: txReceipt.from, amount: amount }];
+        return a;
       } else {
         console.log("failed");
       }
@@ -137,4 +141,4 @@ const Send = async (toAddress, amount, networkName, tokenName) => {
   }
 };
 // 거래 전에 예상 가스비, 최대 가스비 , 총 금액을 보여줘야 함
-Send("", "", "Polygon", "SAND");
+//Send("", "", "Polygon", "SAND");

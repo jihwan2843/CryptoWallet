@@ -27,7 +27,7 @@ const getTokenPrice = async (apiId) => {
     console.error(error);
   }
 };
-const getBalance = async () => {
+export const getBalance = async () => {
   const provider = selectNetwork("Polygon");
 
   try {
@@ -79,9 +79,10 @@ const getBalance = async () => {
     flatResult.forEach((result) => balance.push(result));
 
     console.log(balance);
+    return balance;
   } catch (error) {
     console.error(error);
   }
 };
 
-getBalance();
+//getBalance();

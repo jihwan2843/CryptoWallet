@@ -9,7 +9,6 @@ export const selectNetwork = (network) => {
       provider = new ethers.JsonRpcProvider(
         process.env["POLYGON_ALLTHATNODE_RPC"]
       );
-      provider.getBlockNumber();
       break;
     case "Ethereum":
       provider = new ethers.JsonRpcProvider(

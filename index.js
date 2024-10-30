@@ -1,14 +1,14 @@
 import { ethers } from "ethers";
-// import axios from "axios";
-// import crypto from "crypto";
+import express from "express";
 import dotenv from "dotenv";
-import { POLYGON_JSONRPC } from "./constants/index.js";
+import { getBalance } from "./getBalance.js";
+import { Send } from "./send.js";
 
 dotenv.config();
 
-//const provider = new ethers.InfuraProvider("matic");
-//const provider = new ethers.InfuraProvider("sepolia");
-//const provider = new ethers.AlchemyProvider("sepolia");
+const app = express();
+
+const port = 3010;
 
 const testAddr1 = process.env.TestAddr1;
 const testAddr2 = process.env.TestAddr2;
@@ -17,6 +17,15 @@ const apiKey = process.env.CoinGeckoAPIKey;
 const balance = [{}];
 
 let provider;
+app.get("/getBalance", async (req, res) => {
+  const result = await getBalance();
 
-const main = async () => {};
-main();
+  return res.json(result);
+});
+
+app.get("/send", async (req, res) => {
+  const result = await Send(testAddr2, "0.1", "Polygon", "MATIC");
+  return res.json(result);
+});
+
+app.listen(port);
