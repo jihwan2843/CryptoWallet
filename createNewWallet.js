@@ -7,7 +7,7 @@ console.log(newWallet.privateKey);
 // mnemonic
 console.log(newWallet.mnemonic.phrase);
 
-// 시드 문구로 지갑 만들기
+// 시드 문구로 지갑 불러오기
 const myWallet = ethers.Wallet.fromPhrase(seedPhrase);
 console.log("new wallet", myWallet);
 
@@ -28,9 +28,10 @@ async function encryptPassword(password) {
 }
 (async () => {
   // 사용자가 설정한 비밀번호
-  const passwd = await encryptWallet(); // 암호화된 JSON과 소금값 저장
+  const passwd = await encryptPassword("password"); // 암호화된 JSON과 소금값 저장
 
   // 지갑을 암호화
+  // ethers js에 있는 암호화 코드
   const encryptedJSON = await newWallet.encrypt(passwd);
   console.log(encryptedJSON);
   // 지갑 주소는 사용자가 입력하여 로컬 스토리지의 key로 사용한다.
@@ -41,6 +42,7 @@ async function encryptPassword(password) {
   // const encryptedJson = localStorage.getItem(walletName);
 
   // 지갑을 복호화
+  // ethers js에 있는 복호화 코드
   const wallet = await ethers.Wallet.fromEncryptedJson(encryptedJson, passwd);
   console.log(wallet);
   console.log("Encrypted Wallet JSON:", passwd); // 암호화된 JSON 출력

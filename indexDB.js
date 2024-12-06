@@ -1,3 +1,4 @@
+// 크롬 브라우저 IndexedDB에 저장하는 코드
 const saveWallet = (walletAddress, pvk) => {
   // IndexedDB 데이터베이스 열기
   const dbRequest = indexedDB.open("myWallet", 1);
