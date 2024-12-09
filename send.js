@@ -95,7 +95,7 @@ export const Send = async (toAddress, amount, networkName, tokenName) => {
       // cryptocurrency 전송
 
       // 이더단위를 wei로 변환
-      const txAmount = ethers.parseEther("1");
+      const txAmount = ethers.parseEther("0.01");
 
       const myBalance = await provider.getBalance(testAddr1);
 
@@ -115,6 +115,7 @@ export const Send = async (toAddress, amount, networkName, tokenName) => {
 
       // 트랜잭션 보내기
       const txResponse = await signer.sendTransaction(tx);
+      console.log(118, txResponse);
       const txReceipt = await txResponse.wait();
       console.log(90, txReceipt);
       const txHash = txReceipt.hash;
@@ -141,4 +142,39 @@ export const Send = async (toAddress, amount, networkName, tokenName) => {
   }
 };
 // 거래 전에 예상 가스비, 최대 가스비 , 총 금액을 보여줘야 함
-//Send("", "", "Polygon", "SAND");
+//Send("", "", "Sepolia", "SAND");
+
+// 거래 가속화 하기
+async function accelerateTx() {
+  const tx = await provider.getTransaction(txResponse);
+  const newGasPrice = tx.gasPrice.mul(110).div(100); // 10% 증가
+
+  const speedUpTx = {
+    to: tx.to,
+    from: tx.from,
+    nonce: tx.nonce,
+    value: tx.value,
+    data: tx.data,
+    gasLimit: tx.gasLimit,
+    gasPrice: newGasPrice,
+  };
+
+  return await signer.sendTransaction(speedUpTx);
+}
+
+// 거래 취소하기
+async function cancelTx() {
+  const tx = await provider.getTransaction(txResponse);
+  const newGasPrice = tx.gasPrice.mul(110).div(100); // 10% 증가
+
+  const cancelTx = {
+    to: await signer.getAddress(), // 자신의 주소
+    from: await signer.getAddress(),
+    nonce: tx.nonce,
+    value: 0, // 0 ETH 전송
+    gasLimit: 21000, // 기본 전송에 필요한 가스
+    gasPrice: newGasPrice,
+  };
+
+  return await signer.sendTransaction(cancelTx);
+}

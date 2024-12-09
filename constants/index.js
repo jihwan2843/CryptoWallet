@@ -17,7 +17,7 @@ export const selectNetwork = (network) => {
       break;
     case "Sepolia":
       provider = new ethers.JsonRpcProvider(
-        process.env["SEPOLIA_ALLTHATNODE_RPC"]
+        process.env["SEPOLIA_JSONRPC_PROVIDER"]
       );
       break;
     default:
